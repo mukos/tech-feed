@@ -17,5 +17,5 @@ News feed for technology topics
 
 #### Info
 
-Application runs on Node.js with Express using EJS view engine
-Integrated with https://newsapi.org/
+- Application runs on Node.js with Express using EJS view engine
+- Integrated with https://newsapi.org/
