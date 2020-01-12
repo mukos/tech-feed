@@ -1,0 +1,28 @@
+{
+  "name": "tech-feed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mukos/tech-feed.git"
+  },
+  "author": "Muhamed Kosovac",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mukos/tech-feed/issues"
+  },
+  "homepage": "https://github.com/mukos/tech-feed#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "jsonfile": "^5.0.0",
+    "newsapi": "^2.4.0",
+    "uuid": "^3.3.3"
+  }
+}
