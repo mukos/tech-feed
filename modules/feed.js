@@ -6,8 +6,8 @@ const newsAPI = require('newsapi');
 const { API_KEY, NAMESPACE } = process.env;
 
 class NewsFeed {
-    static articles = {};
-    static favorites = {};
+    static articles = new Map();
+    static favorites = new Map();
 
     static articlesPath = 'data';
 
@@ -18,11 +18,11 @@ class NewsFeed {
     static sort = (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt);
 
     static getArticles(){
-        return Object.values(this.articles).filter(x => !!x).sort( this.sort );
+        return Array.from(this.articles.values()).sort( this.sort );
     }
 
     static getFavorites(){
-        return Object.values(this.favorites).filter(x => !!x).sort( this.sort );
+        return Array.from(this.favorites.values()).sort( this.sort );
     }
 
     static async startFeed() {
@@ -32,8 +32,8 @@ class NewsFeed {
             for( const fileName of files ){
                 const article = await jsonfile.readFile(`${this.articlesPath}/${fileName}`);
                 const id = fileName.split('.')[0];
-                this.articles[id] = article;
-                if( article.favorite ) this.favorites[id] = article;
+                this.articles.set(id, article);
+                if( article.favorite ) this.favorites.set(id, article);
             }
 
             await this.saveArticles();
@@ -54,10 +54,10 @@ class NewsFeed {
 
         for( const article of articles ){
             const id = uuid(article.title, NAMESPACE);
-            if(!this.articles[id]){
+            if(!this.articles.has(id)){
                 article.favorite = false;
                 article.id = id;
-                this.articles[id] = { ...article };
+                this.articles.set(id, article);
                 await jsonfile.writeFile(`${this.articlesPath}/${id}.json`, article);
                 console.log(`Saved article with id: ${id}`);
             }
@@ -65,15 +65,14 @@ class NewsFeed {
     };
 
     static async toggleFavorite(id) {
-        const article = this.articles[id];
-        if(!article) throw new Error('Article doesn\'t Exist');
-        const favorite = this.favorites[id];
-        if(!favorite){
+        if(!this.articles.has(id)) throw new Error('Article doesn\'t Exist');
+        const article = this.articles.get(id);
+        if(!this.favorites.has(id)){
             article.favorite = true;
-            this.favorites[id] = article;
+            this.favorites.set(id, article);
             console.log(`Favorite article with id: ${id}`);
         } else {
-            this.favorites[id] = undefined;
+            this.favorites.delete(id);
             article.favorite = false;
             console.log(`Unfavorite article with id: ${id}`);
         }
