@@ -30,10 +30,12 @@ class NewsFeed {
         try {
             const files = await readFolder(this.articlesPath);
             for( const fileName of files ){
-                const article = await jsonfile.readFile(`${this.articlesPath}/${fileName}`);
-                const id = fileName.split('.')[0];
-                this.articles.set(id, article);
-                if( article.favorite ) this.favorites.set(id, article);
+                const [id, ext] = fileName.split('.');
+                if( ext === 'json' ){
+                    const article = await jsonfile.readFile(`${this.articlesPath}/${fileName}`);
+                    this.articles.set(id, article);
+                    if( article.favorite ) this.favorites.set(id, article);
+                }
             }
 
             await this.saveArticles();
