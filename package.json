@@ -20,7 +20,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "ejs": "^3.1.7",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jsonfile": "^5.0.0",
     "newsapi": "^2.4.0",
     "uuid": "^3.3.3"
