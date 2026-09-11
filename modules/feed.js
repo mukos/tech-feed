@@ -1,6 +1,6 @@
 const readFolder = require('util').promisify(require('fs').readdir);
 const jsonfile = require('jsonfile');
-const uuid = require('uuid/v5');
+const { v5: uuid } = require('uuid');
 const newsAPI = require('newsapi');
 
 const { API_KEY, NAMESPACE } = process.env;
